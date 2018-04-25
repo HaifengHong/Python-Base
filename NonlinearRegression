@@ -1,0 +1,36 @@
+-*- coding=utf-8 -*-
+import tensorflow as tf
+import numpy as np
+import matplotlib.pylot as plt
+
+x_data = np.linspace(-0.5, 0.5, 200)[:, None]
+noise = np.random.normal(0, 0.02, x_data.shape)
+y_data = np.square(x_data) + noise
+
+x = tf.placeholder(tf.float32, [None, 1]) # 不是[None ,10]
+y = tf.placeholder(tf.float32, [None, 1])
+
+# 中间层
+w1 = tf.Variable(tf.random_normal([1, 10])) # 注意矩阵行列数，因为输出层有10个神经元
+b1 = tf.Variable(tf.zeros([1, 10])
+L1 = tf.nn.tanh(tf.matmul(x, w1) + b1)
+
+# 输出层
+w2 = tf.Variable(tf.random_normal([10, 1]) # 输出层只有1个神经元
+b2 = tf.Variable(tf.zeros(0, [1, 1])
+prediction = tf.matmul(L1, w2) + b2
+
+loss = tf.nn.softmax_cross_entropy_with_digits(labels = y_data, digits = prediction)
+
+train = tf.train.GradientDescentOptimizer(0.2).minimize(loss)
+
+with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    for _ in range(200):
+        sess.run(train, feed_dict = {x:x_data, y:y_data})
+    print
+    
+    plt.figure()
+    plt.scatter(x_data, y_data)
+    plt.plot(x_data, prediction, 'r-', lw=5)
+    plt.show()
