@@ -1,2 +1,2 @@
-# Write-From-Memory
-默写的程序
+# Python语言基本语法
+
