@@ -90,3 +90,29 @@ from enum import Enum
 Month = Enum('Month', ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'))
 for name, member in Month.__members__.items():
     print(name, '=>', member, ',', member.value)  # Jan => Month.Jan , 1……  # value属性则是自动赋给成员的int常量，默认从1开始计数。
+    
+
+    
+    
+# 多继承的__mro__方法
+class Base:
+    def __init__(self):
+        print('Base.__init__')
+
+class A(Base):
+    def __init__(self):
+        super().__init__()
+        print('A.__init__')
+
+class B(Base):
+    def __init__(self):
+        super().__init__()
+        print('B.__init__')
+
+class C(A,B):
+    def __init__(self):
+        super().__init__()  # Only one call to super() here
+        print('C.__init__')
+
+c = C() # 必须加()
+print(C.__mro__)  # (<class '__main__.C'>, <class '__main__.A'>, <class '__main__.B'>, <class '__main__.Base'>, <class 'object'>)
